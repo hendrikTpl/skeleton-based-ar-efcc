@@ -42,8 +42,5 @@
     "dev": "cd demos && yarn watch",
     "lint": "tslint -p . -t verbose"
   },
-  "license": "Apache-2.0",
-  "dependencies": {
-    "@types/node": "^14.14.6"
-  }
+  "license": "Apache-2.0"
 }
