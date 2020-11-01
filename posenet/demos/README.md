@@ -16,6 +16,23 @@ The [coco images](http://cocodataset.org/#home) demo shows how to estimate poses
 <img src="https://raw.githubusercontent.com/tensorflow/tfjs-models/master/posenet/demos/coco.gif" alt="cameraDemo" style="width: 600px;"/>
 
 
+## Setup Dependencies
+### Linux
+1. Install yarn
+```sh
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+sudo apt update && sudo apt install yarn
+```
+2. NodeJS and NPM
+```sh
+tar -xJf node-v#.#.#-linux-arm64.tar.xz
+cd node-v#.#.#-linux-arm64
+sudo cp -R * /usr/local/
+node -v
+npm -v
+```
 ## Setup
 
 cd into the demos folder:

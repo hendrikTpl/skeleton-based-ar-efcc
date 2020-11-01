@@ -20,6 +20,10 @@ import Stats from 'stats.js';
 
 import {drawBoundingBox, drawKeypoints, drawSkeleton, isMobile, toggleLoadingUI, tryResNetButtonName, tryResNetButtonText, updateTryResNetButtonDatGuiCss} from './demo_util';
 
+// URL For API
+const Http = new XMLHttpRequest();
+const url = 'http://140.118.1.26:5000/posenet';
+
 const videoWidth = 600;
 const videoHeight = 500;
 const stats = new Stats();
@@ -405,6 +409,14 @@ function detectPoseInRealTime(video, net) {
         });
 
         poses = poses.concat(all_poses);
+        
+        console.log(poses);
+        Http.open("POST", url);
+        Http.send(poses);
+
+        Http.onreadystatechange = (e) => {
+          console.log(poses)
+        
         minPoseConfidence = +guiState.multiPoseDetection.minPoseConfidence;
         minPartConfidence = +guiState.multiPoseDetection.minPartConfidence;
         break;
