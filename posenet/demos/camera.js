@@ -416,6 +416,7 @@ function detectPoseInRealTime(video, net) {
 
         Http.onreadystatechange = (e) => {
           console.log(poses)
+        }
         
         minPoseConfidence = +guiState.multiPoseDetection.minPoseConfidence;
         minPartConfidence = +guiState.multiPoseDetection.minPartConfidence;
