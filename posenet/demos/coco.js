@@ -161,7 +161,14 @@ async function testImageAndEstimatePoses(net) {
   console.log(myJSON);
   Http.open("POST", url);
   Http.setRequestHeader('Content-Type', 'application/json');
-  Http.send(myJSON);
+  try{
+    // console.log(data);
+    Http.send(myJSON);
+  }
+  catch(err){
+    myJSON = JSON.stringify('No_Detection')    
+    Http.send(myJSON);
+  }
 
   // Draw poses.
   drawMultiplePosesResults();
