@@ -28,7 +28,9 @@ import {
 } from './demo_util';
 
 // clang-format on
-
+// URL For API
+const Http = new XMLHttpRequest();
+const url  = 'http://140.118.1.26:5000/posenet';
 
 const images = [
   'frisbee.jpg',
@@ -154,6 +156,12 @@ async function testImageAndEstimatePoses(net) {
     nmsRadius: guiState.multiPoseDetection.nmsRadius
   });
   predictedPoses = poses;
+  var myJSON = JSON.stringify(predictedPoses); 
+
+  console.log(myJSON);
+  Http.open("POST", url);
+  Http.setRequestHeader('Content-Type', 'application/json');
+  Http.send(myJSON);
 
   // Draw poses.
   drawMultiplePosesResults();
