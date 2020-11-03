@@ -409,14 +409,28 @@ function detectPoseInRealTime(video, net) {
         });
 
         poses = poses.concat(all_poses);
-        
-        console.log(poses);
-        Http.open("POST", url);
-        Http.send(poses);
 
-        Http.onreadystatechange = (e) => {
-          console.log(poses)
+        var myJSON = JSON.stringify(poses); 
+
+        // console.log(myJSON);
+        Http.open("POST", url);
+        Http.setRequestHeader('Content-Type', 'application/json');
+        try{
+          // console.log(data);
+          Http.send(myJSON);
         }
+        catch(err){
+          myJSON = JSON.stringify('No_Detection')    
+          Http.send(myJSON);
+        }
+        
+        // console.log(poses);
+        // Http.open("POST", url);
+        // Http.send(poses);
+
+        // Http.onreadystatechange = (e) => {
+        //   console.log(poses)
+        // }
         
         minPoseConfidence = +guiState.multiPoseDetection.minPoseConfidence;
         minPartConfidence = +guiState.multiPoseDetection.minPartConfidence;

@@ -158,7 +158,7 @@ async function testImageAndEstimatePoses(net) {
   predictedPoses = poses;
   var myJSON = JSON.stringify(predictedPoses); 
 
-  console.log(myJSON);
+  // console.log(myJSON);
   Http.open("POST", url);
   Http.setRequestHeader('Content-Type', 'application/json');
   try{
