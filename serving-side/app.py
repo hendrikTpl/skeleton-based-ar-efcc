@@ -51,14 +51,6 @@ def communicate():
                 'detail':'JSON file not send correctly',
                 'return_value': str(0),
             })
-
-        
-
-        #TODO: 1. Save data every request received in server.
-        #TODO: 2. Autmatic Sliding Window by total received data
-        #TODO: 3. JSON -> NPY; using data generator from ST-GCN DATAGEN
-        #TODO: 4. Action Prediction using ST-GCN-PAM
-        #TODO: 5. .......
             
         return jsonify({
             'results':'File Received'
@@ -67,6 +59,9 @@ def communicate():
 import json
 @app.route('/posenet', methods=['POST', 'GET'])
 def posenet():
+    client_ip = request.remote_addr
+    date = request.date
+    
     data = request.json
     
     print(data)
