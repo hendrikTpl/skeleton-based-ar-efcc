@@ -44,4 +44,4 @@ WORKDIR /docker_debugv1/torchlight
 RUN python setup.py install
 
 # Set the working directory to be /testenv
-WORKDIR /docker_debugv1
+WORKDIR /docker_debugv1 
