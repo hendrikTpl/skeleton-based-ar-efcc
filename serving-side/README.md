@@ -9,6 +9,6 @@
 - [ ] Autmatic Sliding Window by total received data
 - [ ] Data transform: 
     - 16 Points --> 15 Points - same with UT
-    - Transfor to GCN Format
+    - Transform to GCN Format
 - [ ] JSON -> NPY; using data generator from ST-GCN DATAGEN 
 - [ ] Action Prediction using ST-GCN-PAM
