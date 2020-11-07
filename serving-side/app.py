@@ -26,16 +26,42 @@ print(client.list_database_names())
 
 global_db = dbGlobal(global_table)
 temp_db = dbTemp(temp_table)
-# global_db.add(ip_name = '1.1.1.1', original_data='Trial1',openpose_format_data='Trial2')
-# temp_db.add(ip_addr= '1.1.1.1', transformed_data='path', counter =1)
+
+max_frame_for_inference = 5
+
 @app.route('/test_db',  methods=['POST', 'GET'])
 def test_db():
     ip_address = '0.0.0.0'
     last_counter = temp_db.get_last_record(ip_addr=ip_address)
-    temp_db.add(ip_addr= ip_address, transformed_data='path', counter= int(last_counter)+1)
     print(last_counter)
     print('Got it')
+    cursor = temp_table.find_one(sort=[( '_id', pymongo.DESCENDING )])
+    print(cursor)
+    if last_counter>max_frame_for_inference:
+        temp_db.delete_record(ip_addr=ip_address)
+        last_counter = temp_db.get_last_record(ip_addr=ip_address)
+        temp_db.add(ip_addr= ip_address, transformed_data='path', counter= int(last_counter)+1)
+        return 'Test DB'
+ 
+    temp_db.add(ip_addr= ip_address, transformed_data='path', counter= int(last_counter)+1)
+    
     return 'Test DB'
+
+import json
+@app.route('/posenet', methods=['POST', 'GET'])
+def posenet():
+    client_ip = request.remote_addr
+    date = request.date
+    
+    data = request.json
+    
+    print(data)
+    with open('data.json', 'w') as outfile:
+        json.dump(data, outfile)
+            
+    return jsonify({
+        'results':'File Received'
+    })
 
 
 @app.route("/")
@@ -62,12 +88,6 @@ def api():
     })
     return response
 
-
-# @app.route('/')
-# def index():
-#     return "Succes API"
-
-
 @app.route('/communicate', methods=['POST', 'GET'])
 def communicate():
     if request.method =='POST':
@@ -85,27 +105,8 @@ def communicate():
             'results':'File Received'
         })
 
-import json
-@app.route('/posenet', methods=['POST', 'GET'])
-def posenet():
-    client_ip = request.remote_addr
-    date = request.date
-    
-    data = request.json
-    
-    print(data)
-    with open('data.json', 'w') as outfile:
-        json.dump(data, outfile)
-            
-    return jsonify({
-        'results':'File Received'
-    })
-
 def predict_action():
     pass
-
-
-
 
 if __name__ == '__main__':
     # This is used when running locally.

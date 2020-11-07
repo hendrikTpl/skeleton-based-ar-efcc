@@ -57,6 +57,14 @@ class dbTemp():
         except:
             return 0
 
+    def delete_record(self, ip_addr):
+        try:
+            self.database.remove({"ip_address": ip_addr})
+            return True
+        except:
+            return False
+
+
     
     # def update(self, ip_addr):
 
