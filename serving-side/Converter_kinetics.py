@@ -54,5 +54,5 @@ class Converter_kinetics():
         }
         return perFrame
 
-data = Converter_kinetics(data_path='data.json', frame_index=1)
-print(data.kinetics_format())
+# data = Converter_kinetics(data_path='data.json', frame_index=1)
+# print(data.kinetics_format())

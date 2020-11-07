@@ -1,3 +1,5 @@
+# DEVEL VERSION
+import json
 import os
 import sys
 import logging
@@ -6,6 +8,8 @@ from flask_cors import CORS, cross_origin
 from pymongo import MongoClient
 from dbHelper import dbGlobal, dbTemp
 import pymongo
+from Converter_kinetics import Converter_kinetics
+
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -47,7 +51,46 @@ def test_db():
     
     return 'Test DB'
 
-import json
+@app.route('/test_posenet', methods=['POST'])
+def test_posenet():
+    if request.method =='POST':
+        cursor = temp_table.find_one(sort=[( '_id', pymongo.DESCENDING )])
+        print(cursor)
+        client_ip = request.remote_addr
+        date_send = str(request.headers['Date']).replace(' ','_').replace('/','-')
+        
+        data = request.json
+        file_path1 = 'static/unformated/'+ str(date_send) +'.json'
+        with open(file_path1, 'w') as f:
+            json.dump(data, f)
+
+        last_counter   = temp_db.get_last_record(ip_addr=client_ip)
+        data_converted = Converter_kinetics(data_path=file_path1, frame_index=last_counter)
+
+        file_path2 = 'static/formated/'+ str(date_send) +'.json'
+        with open(file_path2, 'w') as f:
+            json.dump(data_converted.kinetics_format(), f)
+        
+        if last_counter>max_frame_for_inference:
+            temp_db.delete_record(ip_addr=client_ip)
+            last_counter = temp_db.get_last_record(ip_addr=client_ip)
+            temp_db.add(ip_addr= client_ip, transformed_data=file_path2, counter= int(last_counter)+1)
+            return jsonify({
+                'detail':'Success',
+                'return_value': str(0)})
+
+        temp_db.add(ip_addr= client_ip, transformed_data=file_path2, counter= int(last_counter)+1)
+
+        return jsonify({
+            'detail':'Success',
+            'return_value': str(0),
+        })
+    return jsonify({
+            'detail':'Failed',
+            'return_value': str(1),
+        })
+
+
 @app.route('/posenet', methods=['POST', 'GET'])
 def posenet():
     client_ip = request.remote_addr
