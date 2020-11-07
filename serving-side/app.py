@@ -3,10 +3,39 @@ import sys
 import logging
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
+from pymongo import MongoClient
+from dbHelper import dbGlobal, dbTemp
+import pymongo
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
+client = MongoClient('127.0.0.1', 27017)
+db = client.TryDatabase
+global_table = db.global_table
+temp_table = db.temp_table
+
+try:
+    global_table.drop()
+    temp_table.drop()
+except:
+    pass
+
+print(db)
+print(client.list_database_names())
+
+global_db = dbGlobal(global_table)
+temp_db = dbTemp(temp_table)
+# global_db.add(ip_name = '1.1.1.1', original_data='Trial1',openpose_format_data='Trial2')
+# temp_db.add(ip_addr= '1.1.1.1', transformed_data='path', counter =1)
+@app.route('/test_db',  methods=['POST', 'GET'])
+def test_db():
+    ip_address = '0.0.0.0'
+    last_counter = temp_db.get_last_record(ip_addr=ip_address)
+    temp_db.add(ip_addr= ip_address, transformed_data='path', counter= int(last_counter)+1)
+    print(last_counter)
+    print('Got it')
+    return 'Test DB'
 
 
 @app.route("/")
@@ -74,6 +103,7 @@ def posenet():
 
 def predict_action():
     pass
+
 
 
 
