@@ -16,14 +16,18 @@ function App() {
       <div className="App-body">
         <div className="row">
           <div className="column">
+            <h3>Data Acqusition, PoseNet</h3>
             <button> Turn on Camera </button>
-            <button> Upload Image </button>    
+            <button> Turn off Camera </button> 
+            
+            
           </div>
           <div className="column">
-            <p>Skeleton data</p>
+            <h3>Skeleton</h3>
           </div>
           <div className="column">
-            <button> SIMSLAB </button>
+            <h3>Output</h3>
+            
           </div>
         </div>     
         

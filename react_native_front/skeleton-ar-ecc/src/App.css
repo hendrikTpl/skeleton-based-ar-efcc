@@ -14,8 +14,8 @@
 }
 
 .App-header {
-  background-color: #b2bdd4;
-  min-height: 10vh;
+  background-color: rgb(9, 79, 97);
+  min-height: 5vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,14 +25,15 @@
 }
 
 .App-body {
-  background-color: #efefde;
-  min-height: 100vh;
+  background-color: rgba(219, 235, 245, 0.644);
+  min-height: 50vh;
+  min-width: 50vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: rgb(59, 19, 19);
 }
 
 .column {
@@ -47,13 +48,13 @@
   clear: both;
 }
 .App-footer{
-  background-color: #b2bdd4;
+  background-color: rgb(9, 79, 97);
   min-height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(12px + 1.5vmin);
   color: white;
 
 }
