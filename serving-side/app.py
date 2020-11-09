@@ -55,7 +55,7 @@ def test_db():
 def test_posenet():
     if request.method =='POST':
         cursor = temp_table.find_one(sort=[( '_id', pymongo.DESCENDING )])
-        print(cursor)
+        # print(cursor)
         client_ip = request.remote_addr
         date_send = str(request.headers['Date']).replace(' ','_').replace('/','-')
         
@@ -67,19 +67,29 @@ def test_posenet():
         last_counter   = temp_db.get_last_record(ip_addr=client_ip)
         data_converted = Converter_kinetics(data_path=file_path1, frame_index=last_counter)
 
-        file_path2 = 'static/formated/'+ str(date_send) +'.json'
-        with open(file_path2, 'w') as f:
-            json.dump(data_converted.kinetics_format(), f)
+        # file_path2 = 'static/formated/'+ str(date_send) +'.json'
+        # with open(file_path2, 'w') as f:
+        #     json.dump(data_converted.kinetics_format(), f)
         
         if last_counter>max_frame_for_inference:
+
+            cluster, cluster_list = temp_db.list_cluster(client_ip)
+            file_path2 = 'static/formated/'+ str(date_send) +'.json'
+            with open(file_path2, 'w') as f:
+                json.dump(cluster, f)
+
+            #Kinetic GenData from cluster
+            #cluster_npy = kinetic_gendata(cluster)
+            # Add to dbAction(cluster_npy, cluster_list)
+            
             temp_db.delete_record(ip_addr=client_ip)
             last_counter = temp_db.get_last_record(ip_addr=client_ip)
-            temp_db.add(ip_addr= client_ip, transformed_data=file_path2, counter= int(last_counter)+1)
+            temp_db.add(ip_addr= client_ip, transformed_data=data_converted.kinetics_format(), counter= int(last_counter)+1, file_path=file_path1)
             return jsonify({
                 'detail':'Success',
                 'return_value': str(0)})
 
-        temp_db.add(ip_addr= client_ip, transformed_data=file_path2, counter= int(last_counter)+1)
+        temp_db.add(ip_addr= client_ip, transformed_data=data_converted.kinetics_format(), counter= int(last_counter)+1, file_path=file_path1)
 
         return jsonify({
             'detail':'Success',
@@ -90,6 +100,7 @@ def test_posenet():
             'return_value': str(1),
         })
 
+@app.route
 
 @app.route('/posenet', methods=['POST', 'GET'])
 def posenet():

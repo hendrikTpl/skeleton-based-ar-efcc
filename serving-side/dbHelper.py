@@ -40,11 +40,12 @@ class dbTemp():
     def __init__(self, database):
         self.database = database
 
-    def add(self, ip_addr, transformed_data, counter):
+    def add(self, ip_addr, transformed_data, counter, file_path):
         self.database.insert_one({
             'ip_address': ip_addr,
-            'object_id':[transformed_data],
-            'counter' : counter
+            'data':transformed_data,
+            'counter' : counter, 
+            'file_name':file_path, 
         })
 
     def get_last_record(self, ip_addr):
@@ -64,6 +65,36 @@ class dbTemp():
         except:
             return False
 
+    def list_cluster(self, ip_addr):
+        report = self.database.find(
+            {'ip_address': ip_addr}
+            )
+        try: 
+            json_form = []
+            file_lit = []
+            for x in report:
+                json_form.append(x['data'])
+                file_lit.append(x['file_name'])
+            json_form = {
+                'data': json_form,
+                'label': 'Unknown',
+                'label_index': int(0)
+            }
+            return json_form , file_lit
+        except:
+            return 0
+
+    def get_cluster(self, ip_addr):
+        report = self.database.find(
+            {'ip_address': ip_addr}
+            )
+        try: 
+            json_form = []
+            for x in report:
+                json_form.append(x)
+            return json_form
+        except:
+            return 0
 
     
     # def update(self, ip_addr):
