@@ -1,0 +1,42 @@
+# @Author: ajisetyoko <simslab-cs>
+# @Date:   2020-01-13T13:35:47+08:00
+# @Email:  aji.setyoko.second@gmail.com
+# @Last modified by:   simslab-cs
+# @Last modified time: 2020-03-19T18:15:10+08:00
+
+work_dir: ./work_dir/recognition/sbu_pam_fold2re_v1
+# feeder
+feeder: feeder.feeder_kinetics.Feeder_kinetics
+train_feeder_args:
+  random_choose: False
+  random_move: False
+  window_size: 50
+  data_path: ./data/sbu_multifold/fold3/train_data.npy
+  label_path: ./data/sbu_multifold/fold3/train_label.pkl
+test_feeder_args:
+  data_path: ./data/sbu_multifold/fold3/val_data.npy
+  label_path: ./data/sbu_multifold/fold3/val_label.pkl
+
+# model
+model: net.st_gcn.Model
+model_args:
+  in_channels: 3
+  num_class: 9
+  dropout: 0.5
+  edge_importance_weighting: True
+  graph_args:
+    layout: 'sbu'
+    strategy: 'spatial'
+
+#optim
+weight_decay: 0.0001
+base_lr: 0.03
+step: [100,200]
+
+# training
+eval_interval: 1
+save_interval: 2
+device: [0]
+batch_size: 20
+test_batch_size: 20
+num_epoch: 300

@@ -2,17 +2,22 @@ import os
 import sys
 import logging
 from flask import Flask, request, jsonify
+from pymongo import MongoClient
 from flask_cors import CORS, cross_origin
+
+
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-
+client = MongoClient(os.environ["DB_PORT_27017_TCP_ADDR"], 27017)
+db = client.appdb
 
 @app.route("/")
 @cross_origin()
 def helloWorld():
-  return "Hello, cross-origin-world!"
+    print('Got it')
+    return "Hello, cross-origin-world!!!!!!!!!!!!!!!"
 
 
 # API route
@@ -32,12 +37,6 @@ def api():
         'Response': 'OK'
     })
     return response
-
-
-# @app.route('/')
-# def index():
-#     return "Succes API"
-
 
 @app.route('/communicate', methods=['POST', 'GET'])
 def communicate():
@@ -75,7 +74,10 @@ def posenet():
 def predict_action():
     pass
 
-
+@app.route('/test_db',  methods=['POST', 'GET'])
+def test_db():
+    print('Got it')
+    return 'Test DB'
 
 if __name__ == '__main__':
     # This is used when running locally.

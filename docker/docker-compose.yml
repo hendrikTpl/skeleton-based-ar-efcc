@@ -1,14 +1,35 @@
-version: "3.8"
-services:
-  web:
-    build: .
-    command: python app.py
-    ports:
-      - "5000:5000"
-    volumes:
-      - .:/todo
-  db:
-    image: "mongo:latest"
-    ports:
-      - "27017:27017"
-    command: mongod --port 27017
+web:
+  build: .
+  command: python -u app.py
+  ports:
+    - "5000:5000"
+  volumes:
+    - .:/app
+  links:
+    - db
+db:
+  image: mongo:4.2-bionic
+
+
+
+# version: "3.8"
+# services:
+#   web:
+#     build: .
+#     command: python -u app.py
+#     ports:
+#       - "5000:5000"
+#     volumes:
+#       - .:/todo
+#   mongo:
+#     image: mongo:4.2-bionic
+#     deploy:
+#       restart_policy:
+#           condition: on-failure
+#     command:
+#     - --storageEngine
+#     - wiredTiger
+#     - --replSet
+#     - myrepl
+#     ports:
+#         - "27017:27017"

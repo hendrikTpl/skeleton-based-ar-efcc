@@ -130,3 +130,9 @@ dmypy.json
 
 demos/node_modules/
 node_modules/
+
+gcn_deploy/models/
+gcn_deploy/resource/
+gcn_deploy/torchlight/
+gcn_deploy/kinetics_format/kinetics_train/
+gcn_deploy/kinetics_format/FOLD_0/
