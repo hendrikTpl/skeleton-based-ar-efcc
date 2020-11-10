@@ -6889,6 +6889,11 @@ lodash._reinterpolate@^3.0.0:
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
   integrity sha1-DM8tiRZq8Ds2Y8eWU4t1rG4RTZ0=
 
+lodash.debounce@^4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+  integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
+
 lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
@@ -9004,6 +9009,18 @@ react-is@^17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
+
+react-native-particle-background@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-particle-background/-/react-native-particle-background-1.0.4.tgz#5d080b5aa47bb93882629cd8d31d94d459ea3cb7"
+  integrity sha512-/vlL6eew1PFFv59tK9b4bleIF5V6OMq/EwRZjstjGIvz3C19JzYdaNJemVPQnOuEoAVdxIfillI22G29y6byNQ==
+
+react-native-particles@0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/react-native-particles/-/react-native-particles-0.0.8.tgz#332a3ee1aa540c35845650fd6d7e5ff8ce6054bc"
+  integrity sha512-N24j7oFX/myRrriZRigl9XeF3rfCY1NQ9wTpaIgSgbQpDxPrVuoO2NOuTYrXSyi41jpXEg7fN64HpkI8MQXrYg==
+  dependencies:
+    lodash.debounce "^4.0.8"
 
 react-refresh@^0.8.3:
   version "0.8.3"
