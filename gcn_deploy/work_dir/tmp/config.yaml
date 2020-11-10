@@ -1,0 +1,45 @@
+# command line: simple_demo.py
+
+base_lr: 0.01
+batch_size: 256
+config: config/sbu/test_sbu.yaml
+debug: false
+device: 0
+eval_interval: 5
+feeder: feeder.feeder_kinetics.Feeder_kinetics
+id_process: misal
+ignore_weights: []
+index_data: misal
+log_interval: 100
+model: net.st_gcn.Model
+model_args:
+    dropout: 0.5
+    edge_importance_weighting: true
+    graph_args:
+        layout: sbu
+        strategy: spatial
+    in_channels: 3
+    num_class: 9
+nesterov: true
+num_epoch: 80
+num_worker: 4
+optimizer: SGD
+pavi_log: false
+phase: test
+print_log: false
+save_interval: 10
+save_log: true
+save_result: false
+show_topk:
+- 1
+- 5
+start_epoch: 0
+step: []
+test_batch_size: 2
+test_feeder_args:
+    data_path: kinetics_format2.npy
+train_feeder_args: {}
+use_gpu: true
+weight_decay: 0.0001
+weights: ./weights/epoch78_model.pt
+work_dir: ./work_dir/tmp

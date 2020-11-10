@@ -79,8 +79,11 @@ def test_posenet():
                 json.dump(cluster, f)
 
             #Kinetic GenData from cluster
-            #cluster_npy = kinetic_gendata(cluster)
+            # cluster_npy = kinetic_gendata(cluster)
             # Add to dbAction(cluster_npy, cluster_list)
+            
+            # Action Recognition
+            # pred = predict(cluster_npy)
             
             temp_db.delete_record(ip_addr=client_ip)
             last_counter = temp_db.get_last_record(ip_addr=client_ip)

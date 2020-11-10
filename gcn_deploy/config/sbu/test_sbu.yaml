@@ -1,0 +1,22 @@
+weights: ./weights/epoch78_model.pt
+# feeder
+feeder: feeder.feeder_kinetics.Feeder_kinetics
+
+
+
+# model
+model: net.st_gcn.Model
+model_args:
+  in_channels: 3
+  num_class: 9
+  dropout: 0.5
+  edge_importance_weighting: True
+  graph_args:
+    layout: 'sbu'
+    strategy: 'spatial'
+
+# test
+phase: test
+device: 0
+test_batch_size: 2
+save_result: False
