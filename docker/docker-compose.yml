@@ -1,17 +1,23 @@
 web:
-  build: .
-  command: python -u app.py
+  image: desycopo/aji-gcn:flask
   ports:
     - "5000:5000"
   volumes:
-    - .:/app
+    - .:/mnt/
   links:
     - db
+  command: python -u /mnt/app.py
 db:
   image: mongo:4.2-bionic
 
 
 
+
+# gcn:
+#   image: desycopo/aji-gcn:latest
+#   command: bash -c ". /opt/conda/etc/profile.d/conda.sh && source ~/.bashrc && conda activate gcn"
+#   stdin_open: true
+#   tty: true
 # version: "3.8"
 # services:
 #   web:
