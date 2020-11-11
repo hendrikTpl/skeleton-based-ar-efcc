@@ -136,3 +136,5 @@ gcn_deploy/resource/
 gcn_deploy/torchlight/
 gcn_deploy/kinetics_format/kinetics_train/
 gcn_deploy/kinetics_format/FOLD_0/
+
+*.tar
