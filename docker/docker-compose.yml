@@ -3,10 +3,11 @@ web:
   ports:
     - "5000:5000"
   volumes:
-    - .:/mnt/
+    - ../:/mnt/
+  working_dir: /mnt/serving-side/
   links:
     - db
-  command: python -u /mnt/app.py
+  command: python -u app.py
 db:
   image: mongo:4.2-bionic
 

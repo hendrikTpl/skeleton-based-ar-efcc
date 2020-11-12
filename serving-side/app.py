@@ -14,7 +14,9 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-client = MongoClient('127.0.0.1', 27017)
+# client = MongoClient('127.0.0.1', 27017) #Local
+client = MongoClient(os.environ["DB_PORT_27017_TCP_ADDR"], 27017)
+
 db = client.TryDatabase
 global_table = db.global_table
 temp_table = db.temp_table
@@ -52,15 +54,15 @@ def test_db():
     return 'Test DB'
 
 @app.route('/test_posenet', methods=['POST'])
-def test_posenet():
+def test_posenet(): 
     if request.method =='POST':
         cursor = temp_table.find_one(sort=[( '_id', pymongo.DESCENDING )])
-        # print(cursor)
+        # print(cursor) 
         client_ip = request.remote_addr
         date_send = str(request.headers['Date']).replace(' ','_').replace('/','-')
         
         data = request.json
-        file_path1 = 'static/unformated/'+ str(date_send) +'.json'
+        file_path1 = os.getcwd() + '/static/unformated/'+ str(date_send) +'.json'
         with open(file_path1, 'w') as f:
             json.dump(data, f)
 
@@ -70,11 +72,11 @@ def test_posenet():
         # file_path2 = 'static/formated/'+ str(date_send) +'.json'
         # with open(file_path2, 'w') as f:
         #     json.dump(data_converted.kinetics_format(), f)
-        
+        print(last_counter, flush=True)
         if last_counter>max_frame_for_inference:
 
             cluster, cluster_list = temp_db.list_cluster(client_ip)
-            file_path2 = 'static/formated/'+ str(date_send) +'.json'
+            file_path2 = os.getcwd() + '/static/formated/'+ str(date_send) +'.json'
             with open(file_path2, 'w') as f:
                 json.dump(cluster, f)
 
