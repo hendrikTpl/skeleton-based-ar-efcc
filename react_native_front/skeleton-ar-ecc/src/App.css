@@ -1,0 +1,387 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 30vmin;
+  pointer-events: none;
+  align-items: stretch;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 30s reverse;
+  }
+}
+
+.App-header {
+  background-color: rgb(9, 79, 97);
+
+  background-image: url("egde_big.png");
+  background-repeat: repeat-x;
+  background-blend-mode:color-burn;
+  background-size:auto;  
+  min-height: 5vh;
+  /*display: flex;
+  flex-direction: column;*/
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 3vmin);
+  color: white;
+  /*
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  */
+  opacity: 0.85; 
+  
+}
+
+.particle-network-animation {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 100vh;
+	background-color: #171717;
+  
+  before {
+    z-index: -2;
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url(http://web.frfr.me/dev/world-map-optimized.jpg);
+    background-image: url(https://images.unsplash.com/photo-1450849608880-6f787542c88a?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=786a67dca1d8791d181bfd90b16240d9);
+    background-position: center center;
+    background-size: cover;
+    opacity: 0.2;
+  }
+}
+.glow {
+  z-index: -1;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background-image: radial-gradient(circle closest-side, rgba(255, 255, 255, 0.025), transparent);
+}
+$duration: 25s;
+.glow-1 {
+  width: 150vw;
+  height: 150vh;
+  margin-top: -75vh;
+  margin-left: -75vw;
+  animation: glow-1-move $duration linear infinite both;
+}
+@keyframes glow-1-move {
+  from {
+    transform: translate(-100%, 100%);
+  }
+  to {
+    transform: translate(100%, -100%);
+  }
+}
+.glow-2 {
+  width: 100vw;
+  height: 100vh;
+  margin-top: -50vh;
+  margin-left: -50vw;
+  animation: glow-2-move $duration linear $duration / 3 infinite both;
+}
+@keyframes glow-2-move {
+  from {
+    transform: translate(-100%, 0%);
+  }
+  to {
+    transform: translate(100%, 100%);
+  }
+}
+.glow-3 {
+  width: 120vw;
+  height: 120vh;
+  margin-top: -60vh;
+  margin-left: -60vw;
+  animation: glow-3-move $duration linear $duration / 3 * 2 infinite both;
+}
+@keyframes glow-3-move {
+  from {
+    transform: translate(100%, 100%);
+  }
+  to {
+    transform: translate(0%, -100%);
+  }
+}
+
+
+.App-body {
+  background-color: rgba(223, 232, 235, 0.959);
+  /*background-image: linear-gradient(rgb(252, 240, 240), rgba(145, 182, 185, 0.459), rgba(206, 238, 238, 0.705));*/
+  background: linear-gradient(90deg, #d8b5d5 0%,#e7ecc4 30%,#96efff 67%, #99d396 100%);
+  background-size: 1000%;
+  animation: background 20s linear alternate infinite;
+
+  opacity: 0.8; 
+  min-height: 75vh;
+  width: 100%;
+  float: justify;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(59, 19, 19);
+}
+@keyframes background {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+/*
+gradient versi 1
+@keyframes gradient {
+  0% {
+  background-position: 0% 50%;
+  }
+  50% {
+  background-position: 100% 50%;
+  }
+  100% {
+  background-position: 0% 50%;
+  }
+  }
+*/
+
+/* On screens that are 992px wide or less, the background color is blue */
+@media screen and (max-width: 992px) {
+  .App-body {
+    background-color: blue;
+    background-image: linear-gradient(white, rgb(65, 118, 202));
+    color: white;
+  }
+}
+
+/* On screens that are 600px wide or less, the background color is olive */
+@media screen and (max-width: 600px) {
+  .App-body {
+    background-color: olive;
+    background: url("graph-bg.png");
+    background-repeat: repeat;
+
+    color: white;
+  }
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+  
+}
+.row {
+  float: left;
+  width: 100%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.tulisan-kecil{
+  font: sans-serif;
+  text-align: justify;
+  align-content: stretch;
+  font-size:14px;
+  width: 90%;
+  /*border: 1px dashed rgb(235, 210, 210);*/
+  margin: 10px 10px 10px 10px;
+  color: #f8f6f6;
+  background-color: #052f4bb6;
+  padding: 3rem;
+}
+.camera-canvas{
+  
+  background-image: linear-gradient(rgb(244, 247, 248), rgb(242, 246, 253));
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #fff;
+  box-shadow: 0 3px 14px #000;
+  border-radius: 1rem;
+  width: 90%;
+  height: 100%;
+}
+.skeleton-canvas{
+  width: 90%;
+  height: 90px;
+  /*background-image: linear-gradient(rgb(244, 247, 248), rgb(242, 246, 253));*/
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  background-color: #fff;
+  box-shadow: 0 3px 14px #000;
+  border-radius: 1rem;
+  
+  
+}
+.output-canvas{
+  width: 90%;
+  height: 90px;
+  background-image: linear-gradient(rgb(244, 247, 248), rgb(242, 246, 253));
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  background-color: #fff;
+  box-shadow: 0 3px 14px #000;
+  border-radius: 1rem;
+}
+.App-footer{
+  background-color: rgb(9, 79, 97);
+  min-height: 10vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  font-size: calc(10px + 1vmin);
+  color: white;
+  opacity: 0.60;
+  
+
+}
+.App-footer-col{
+  float: left;
+  width: 33.33%;
+
+}
+
+.App-link {
+  color: #fcf8f7;
+}
+
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 14px;
+  padding: 10px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 2px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ribbon {
+  font-size: 16px !important;
+  /* This ribbon is based on a 16px font side and a 24px vertical rhythm. I've used em's to position each element for scalability. If you want to use a different font size you may have to play with the position of the ribbon elements */
+ 
+  width: 50%;
+     
+  position: relative;
+  background: #89a6ba;
+  color: #fff;
+  text-align: center;
+  padding: 1em 2em; /* Adjust to suit */
+  margin: 2em auto 3em; /* Based on 24px vertical rhythm. 48px bottom margin - normally 24 but the ribbon 'graphics' take up 24px themselves so we double it. */
+ }
+ .ribbon:before, .ribbon:after {
+  content: "";
+  position: absolute;
+  display: block;
+  bottom: -1em;
+  border: 1.5em solid #678498;
+  z-index: -1;
+ }
+ .ribbon:before {
+  left: -2em;
+  border-right-width: 1.5em;
+  border-left-color: transparent;
+ }
+ .ribbon:after {
+  right: -2em;
+  border-left-width: 1.5em;
+  border-right-color: transparent;
+ }
+ .ribbon .ribbon-content:before, .ribbon .ribbon-content:after {
+  content: "";
+  position: absolute;
+  display: block;
+  border-style: solid;
+  border-color: #4f6680 transparent transparent transparent;
+  bottom: -1em;
+ }
+ .ribbon .ribbon-content:before {
+  left: 0;
+  border-width: 1em 0 0 1em;
+ }
+ .ribbon .ribbon-content:after {
+  right: 0;
+  border-width: 1em 1em 0 0;
+ }
+
+ /* Dashed border */
+hr.dashed {
+  border-top: 3px dashed #bbb;
+}
+
+/* Dotted border */
+hr.dotted {
+  border-top: 3px dotted #bbb;
+}
+
+/* Solid border */
+hr.solid {
+  border-top: 3px solid #bbb;
+}
+
+/* Rounded border */
+hr.rounded {
+  border-top: 8px solid #bbb;
+  border-radius: 5px;
+}
+
