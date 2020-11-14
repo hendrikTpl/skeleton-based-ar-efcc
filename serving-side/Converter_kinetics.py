@@ -29,10 +29,9 @@ class Converter_kinetics():
             return 'Error, the max detection is '+ str(self.n_detection)
         return self.data[person_id]['keypoints']
 
-    def kinetics_format(self):
-        # data = Converter('data.json')
+    def kinetics_format(self, n_max = 2):
         perFrame = []
-        for person_id in range(2):
+        for person_id in range(n_max):
             detection = []
             scores = []
             for x in self.get_detection(person_id):

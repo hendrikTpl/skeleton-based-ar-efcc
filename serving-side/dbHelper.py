@@ -1,6 +1,7 @@
 import time
 from datetime import datetime
 import pymongo
+import os
 class dbGlobal():
     '''    
     database = name of the database
@@ -59,6 +60,15 @@ class dbTemp():
             return 0
 
     def delete_record(self, ip_addr):
+        report = self.database.find(
+            {'ip_address': ip_addr}
+        )
+        for data in report:
+            print(data['file_name'])
+            try:
+                os.remove(data['file_name'])
+            except:
+                pass
         try:
             self.database.remove({"ip_address": ip_addr})
             return True

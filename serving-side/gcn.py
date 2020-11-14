@@ -28,7 +28,8 @@ def predict():
 
     
     s2_time = time.time()
-    data_path     = '../gcn_deploy/kinetics_format/single_test2/'
+    # data_path     = '../gcn_deploy/kinetics_format/single_test2/'
+    data_path = 'static/formated/'
     data_out_path = 'kinetics_format_test.npy'
     gendata(data_path, data_out_path)
     print('Gen_data_time', time.time()-s2_time)
