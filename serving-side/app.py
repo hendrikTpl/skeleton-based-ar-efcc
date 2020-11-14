@@ -15,7 +15,8 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 # client = MongoClient('127.0.0.1', 27017) #Local
-client = MongoClient(os.environ["DB_PORT_27017_TCP_ADDR"], 27017)
+client = MongoClient('db', 27017) #Local
+# client = MongoClient(os.environ["DB_PORT_27017_TCP_ADDR"], 27017)
 
 db = client.TryDatabase
 global_table = db.global_table
