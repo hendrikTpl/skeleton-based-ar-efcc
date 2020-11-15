@@ -112,4 +112,40 @@ class dbTemp():
     
     # def update(self, ip_addr):
 
+class dbCounter():
+    def __init__(self, database):
+        self.database = database
+
+    def add(self, ip_addr, counter):
+        self.database.insert_one({
+            'ip_address': ip_addr,
+            'last_counter' : counter, 
+        })
+
+    def last_counter(self, ip_addr):
+        report = self.database.find_one(
+                {'ip_address': ip_addr}
+        )
+        try:
+            return report['last_counter']
+        except:
+            return 0
+    
+    def update_counter(self, ip_addr):
+        last_counter = self.last_counter(ip_addr)
+        self.database.update_one(
+            {'ip_address': ip_addr},
+            {"$set": 
+                {"last_counter": last_counter+1}},
+            upsert=True
+        )
+
+    def reset_counter(self, ip_addr, reset_count =10):
+        last_counter = self.last_counter(ip_addr)
+        self.database.update_one(
+            {'ip_address': ip_addr},
+            {"$set": 
+                {"last_counter": last_counter - reset_count}}
+        )
+        
 

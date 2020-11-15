@@ -9,7 +9,7 @@ import logging
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 from pymongo import MongoClient
-from dbHelper import dbGlobal, dbTemp
+from dbHelper import dbGlobal, dbTemp, dbCounter
 import pymongo
 from Converter_kinetics import Converter_kinetics
 
@@ -29,10 +29,12 @@ client = MongoClient('db', 27017) #Local
 db = client.TryDatabase
 global_table = db.global_table
 temp_table = db.temp_table
+counter_table = db.counter_table
 
 try:
     global_table.drop()
     temp_table.drop()
+    counter_table.drop()
 except:
     pass
 
@@ -41,45 +43,9 @@ print(client.list_database_names())
 
 global_db = dbGlobal(global_table)
 temp_db = dbTemp(temp_table)
+counter_db = dbCounter(counter_table)
 
 max_frame_for_inference = 50
-
-@app.route('/test_real', methods=['POST'])
-def test_real():
-    if request.method =='POST':
-        data = request.json
-        print(data, flush=True)
-        client_ip = request.remote_addr
-        date_send = str(request.headers['Date']).replace(' ','_').replace('/','-')
-
-        file_path1 = os.getcwd() + '/static/unformated/'+ str(date_send) +'.json'
-        with open(file_path1, 'w') as f:
-            json.dump(data, f)
-
-        last_counter   = temp_db.get_last_record(ip_addr=client_ip)
-        data_converted = Converter_kinetics(data_path=file_path1, frame_index=last_counter)
-
-        print(last_counter , flush=True)
-
-        if last_counter>3:
-
-            cluster, cluster_list = temp_db.list_cluster(client_ip)
-            file_path2 = os.getcwd() + '/static/formated/'+ str(date_send) +'.json'
-            with open(file_path2, 'w') as f:
-                json.dump(cluster, f)
-
-            temp_db.delete_record(ip_addr=client_ip)
-            last_counter = temp_db.get_last_record(ip_addr=client_ip)
-            temp_db.add(ip_addr= client_ip, transformed_data=data_converted.kinetics_format(), counter= int(last_counter)+1, file_path=file_path1)
-            return jsonify({
-                'detail':'Success',
-                'return_value': str(0)})
-        temp_db.add(ip_addr= client_ip, transformed_data=data_converted.kinetics_format(), counter= int(last_counter)+1, file_path=file_path1)
-
-        return jsonify({
-            'detail':'Success',
-            'return_value': str(0),
-        })
 
 @app.route('/test_posenet', methods=['POST'])
 def test_posenet(): 
@@ -94,10 +60,11 @@ def test_posenet():
         with open(file_path1, 'w') as f:
             json.dump(data, f)
 
-        last_counter   = temp_db.get_last_record(ip_addr=client_ip)
+        # last_counter   = temp_db.get_last_record(ip_addr=client_ip)
+        last_counter   = counter_db.last_counter(ip_addr=client_ip)
         data_converted = Converter_kinetics(data_path=file_path1, frame_index=last_counter)
 
-        print(last_counter, flush=True)
+        print('Last Counter', last_counter, flush=True)
         if last_counter>max_frame_for_inference:
 
             cluster, cluster_list = temp_db.list_cluster(client_ip)
@@ -113,14 +80,16 @@ def test_posenet():
             proc = Process(target=predict, args=(data_out_path, data_path))
             proc.start()
 
-            last_counter = temp_db.get_last_record(ip_addr=client_ip)
+            # last_counter = dbCounter.get_last_record(ip_addr=client_ip)  
+            counter_db.reset_counter(ip_addr= client_ip, reset_count = last_counter-10)
+            last_counter = counter_db.last_counter(ip_addr=client_ip) 
             temp_db.add(ip_addr= client_ip, transformed_data=data_converted.kinetics_format(), counter= int(last_counter)+1, file_path=file_path1)
             return jsonify({
                 'detail':'Success',
                 'return_value': str(0)})
 
         temp_db.add(ip_addr= client_ip, transformed_data=data_converted.kinetics_format(), counter= int(last_counter)+1, file_path=file_path1)
-
+        counter_db.update_counter(ip_addr= client_ip)
         return jsonify({
             'detail':'Success',
             'return_value': str(0),
