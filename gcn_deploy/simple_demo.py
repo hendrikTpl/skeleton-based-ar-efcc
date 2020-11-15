@@ -34,7 +34,7 @@ def predict():
 
     # start
     Processor = processors['recognition']
-    p = Processor(['--c', 'config/sbu/test_sbu.yaml', 
+    p = Processor(['--c', 'config/sbu/test.yaml', 
     '--index_data','misal','--id_process', 'misal',
     '--test_feeder_args',"{'data_path': 'kinetics_format2.npy'}"])
 

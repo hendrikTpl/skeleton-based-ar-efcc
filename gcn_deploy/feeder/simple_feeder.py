@@ -78,8 +78,8 @@ class Feeder_kinetics(torch.utils.data.Dataset):
         # output data shape (N, C, T, V, M)
         self.N = len(self.sample_name)  #sample
         self.C = 3  #channel
-        self.T = 50  #frame
-        self.V = 15  #joint
+        self.T = 300  #frame
+        self.V = 18  #joint
         self.M = self.num_person_out  #person
 
     def __len__(self):

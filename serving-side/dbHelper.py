@@ -59,11 +59,14 @@ class dbTemp():
         except:
             return 0
 
-    def delete_record(self, ip_addr):
+    def delete_record(self, ip_addr, time_span=10):
         report = self.database.find(
-            {'ip_address': ip_addr}
+            {'ip_address': ip_addr}, 
+            sort=[( '_id', pymongo.ASCENDING )]
         )
-        for data in report:
+        i = 0
+        for i in range(time_span):
+            data = report[i]
             print(data['file_name'])
             try:
                 os.remove(data['file_name'])

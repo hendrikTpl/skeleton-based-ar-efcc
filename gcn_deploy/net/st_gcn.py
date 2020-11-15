@@ -63,9 +63,7 @@ class Model(nn.Module):
             st_gcn(256, 256, kernel_size, 1, **kwargs),
         ))
 
-        # Edited
-        # print(graph_args['layout'])
-        self.graph_b = Graph(layout='sbu',strategy='pam')
+        self.graph_b = Graph(layout=graph_args['layout'],strategy='pam')
         B = torch.tensor(self.graph_b.A, dtype=torch.float32, requires_grad=False)
         # print(B)
         # exit()

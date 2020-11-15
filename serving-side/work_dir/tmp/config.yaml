@@ -1,8 +1,8 @@
-# command line: gcn.py
+# command line: /mnt/serving-side/app.py
 
 base_lr: 0.01
 batch_size: 256
-config: test_sbu.yaml
+config: config/test.yaml
 debug: false
 device: 0
 eval_interval: 5
@@ -16,10 +16,10 @@ model_args:
     dropout: 0.5
     edge_importance_weighting: true
     graph_args:
-        layout: sbu
+        layout: openpose
         strategy: spatial
     in_channels: 3
-    num_class: 9
+    num_class: 6
 nesterov: true
 num_epoch: 80
 num_worker: 4
@@ -37,9 +37,9 @@ start_epoch: 0
 step: []
 test_batch_size: 2
 test_feeder_args:
-    data_path: kinetics_format_test.npy
+    data_path: static/npy_data/kinetics_format_test.npy
 train_feeder_args: {}
 use_gpu: true
 weight_decay: 0.0001
-weights: ../gcn_deploy/weights/epoch78_model.pt
+weights: ./config/best.pt
 work_dir: ./work_dir/tmp

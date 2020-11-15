@@ -41,5 +41,5 @@ test_feeder_args:
 train_feeder_args: {}
 use_gpu: true
 weight_decay: 0.0001
-weights: ./weights/epoch78_model.pt
+# weights: ./weights/epoch78_model.pt
 work_dir: ./work_dir/tmp

@@ -16,6 +16,7 @@ from Converter_kinetics import Converter_kinetics
 from tools.simple_gendata import gendata
 from multiprocessing import Process
 from utils_serving import *
+from gcn import predict
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -41,7 +42,7 @@ print(client.list_database_names())
 global_db = dbGlobal(global_table)
 temp_db = dbTemp(temp_table)
 
-max_frame_for_inference = 300
+max_frame_for_inference = 50
 
 @app.route('/test_real', methods=['POST'])
 def test_real():
@@ -97,27 +98,20 @@ def test_posenet():
         data_converted = Converter_kinetics(data_path=file_path1, frame_index=last_counter)
 
         print(last_counter, flush=True)
-        if last_counter>2:
+        if last_counter>max_frame_for_inference:
 
             cluster, cluster_list = temp_db.list_cluster(client_ip)
             file_path2 = os.getcwd() + '/static/formated/'+ str(date_send) +'.json'
-            # with open(file_path2, 'w') as f:
-            #     json.dump(cluster, f)
+            with open(file_path2, 'w') as f:
+                json.dump(cluster, f)
             
             temp_db.delete_record(ip_addr=client_ip)
 
-            #Kinetic GenData from cluster
+            #Kinetic GenData from cluster && Predict
             data_path     = 'static/formated/'
             data_out_path = 'static/npy_data/kinetics_format_test.npy'
-            proc = Process(target=gendata, args=(data_path, data_out_path))
+            proc = Process(target=predict, args=(data_out_path, data_path))
             proc.start()
-            # gendata(data_path, data_out_path)
-            # print('Gen_data_time', time.time()-s2_time)
-            # cluster_npy = kinetic_gendata(cluster)
-            # Add to dbAction(cluster_npy, cluster_list)
-            
-            # Action Recognition
-            # pred = predict(cluster_npy)
 
             last_counter = temp_db.get_last_record(ip_addr=client_ip)
             temp_db.add(ip_addr= client_ip, transformed_data=data_converted.kinetics_format(), counter= int(last_counter)+1, file_path=file_path1)

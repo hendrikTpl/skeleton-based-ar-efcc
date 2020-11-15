@@ -16,7 +16,7 @@ def gendata(
         data_out_path,
         num_person_in=5,  #observe the first 5 persons
         num_person_out=2,  #then choose 2 persons with the highest score
-        max_frame=50):
+        max_frame=300):
 
     feeder = Feeder_kinetics(
         data_path=data_path,
@@ -31,7 +31,7 @@ def gendata(
         data_out_path,
         dtype='float32',
         mode='w+',
-        shape=(len(sample_name), 3, max_frame, 15, num_person_out))
+        shape=(len(sample_name), 3, max_frame, 18, num_person_out))
 
     for i, s in enumerate(sample_name):
         data = feeder[i]
