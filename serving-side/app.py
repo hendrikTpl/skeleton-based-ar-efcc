@@ -45,7 +45,7 @@ global_db = dbGlobal(global_table)
 temp_db = dbTemp(temp_table)
 counter_db = dbCounter(counter_table)
 
-max_frame_for_inference = 50
+max_frame_for_inference = 15
 
 @app.route('/test_posenet', methods=['POST'])
 def test_posenet(): 
@@ -64,7 +64,7 @@ def test_posenet():
         last_counter   = counter_db.last_counter(ip_addr=client_ip)
         data_converted = Converter_kinetics(data_path=file_path1, frame_index=last_counter)
 
-        print('Last Counter', last_counter, flush=True)
+        print('INFO', client_ip, last_counter, flush=True)
         if last_counter>max_frame_for_inference:
 
             cluster, cluster_list = temp_db.list_cluster(client_ip)
@@ -73,13 +73,13 @@ def test_posenet():
                 json.dump(cluster, f)
             
             temp_db.delete_record(ip_addr=client_ip)
-
+            print('INFO', client_ip, last_counter, flush=True)
             #Kinetic GenData from cluster && Predict
             data_path     = 'static/formated/'
             data_out_path = 'static/npy_data/kinetics_format_test.npy'
-            proc = Process(target=predict, args=(data_out_path, data_path))
-            proc.start()
-
+            # proc = Process(target=predict, args=(data_out_path, data_path))
+            # proc.start()
+            print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', client_ip, last_counter, flush=True)
             # last_counter = dbCounter.get_last_record(ip_addr=client_ip)  
             counter_db.reset_counter(ip_addr= client_ip, reset_count = last_counter-10)
             last_counter = counter_db.last_counter(ip_addr=client_ip) 
@@ -90,6 +90,7 @@ def test_posenet():
 
         temp_db.add(ip_addr= client_ip, transformed_data=data_converted.kinetics_format(), counter= int(last_counter)+1, file_path=file_path1)
         counter_db.update_counter(ip_addr= client_ip)
+        cluster, cluster_list = temp_db.list_cluster(client_ip)
         return jsonify({
             'detail':'Success',
             'return_value': str(0),
@@ -99,7 +100,7 @@ def test_posenet():
             'return_value': str(1),
         })
 
-@app.route
+# @app.route
 
 @app.route('/posenet', methods=['POST', 'GET'])
 def posenet():

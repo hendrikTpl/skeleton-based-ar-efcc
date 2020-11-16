@@ -61,22 +61,24 @@ class dbTemp():
 
     def delete_record(self, ip_addr, time_span=10):
         report = self.database.find(
-            {'ip_address': ip_addr}, 
-            sort=[( '_id', pymongo.ASCENDING )]
-        )
+            {'ip_address': ip_addr}).sort("_id", 1)
         i = 0
-        for i in range(time_span):
-            data = report[i]
-            print(data['file_name'])
+        for data in report:
+            if i >= time_span:
+                break
+            print(data['file_name'], data['counter'])
             try:
+                self.database.remove({"file_name": data['file_name']})
                 os.remove(data['file_name'])
-            except:
+            except Exception as e:
+                print(e)
                 pass
-        try:
-            self.database.remove({"ip_address": ip_addr})
-            return True
-        except:
-            return False
+            i = i+1
+        print('REMAIN')
+        report = self.database.find(
+            {'ip_address': ip_addr}).sort("counter", 1)
+        for data in report:
+            print(data['file_name'], data['counter'])
 
     def list_cluster(self, ip_addr):
         report = self.database.find(
@@ -140,12 +142,12 @@ class dbCounter():
             upsert=True
         )
 
-    def reset_counter(self, ip_addr, reset_count =10):
+    def reset_counter(self, ip_addr, reset_count):
         last_counter = self.last_counter(ip_addr)
         self.database.update_one(
             {'ip_address': ip_addr},
             {"$set": 
-                {"last_counter": last_counter - reset_count}}
+                {"last_counter": reset_count}}
         )
         
 
