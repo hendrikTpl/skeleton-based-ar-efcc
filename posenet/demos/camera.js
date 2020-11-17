@@ -22,7 +22,7 @@ import {drawBoundingBox, drawKeypoints, drawSkeleton, isMobile, toggleLoadingUI,
 
 // URL For API
 const Http = new XMLHttpRequest();
-const url = 'http://140.118.1.26:5000/posenet';
+const url = 'http://140.118.1.26:5003/posenet';
 
 const videoWidth = 600;
 const videoHeight = 500;
@@ -67,7 +67,7 @@ async function loadVideo() {
   return video;
 }
 
-const defaultQuantBytes = 2;
+const defaultQuantBytes = 4;
 
 const defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75;
 const defaultMobileNetStride = 16;
@@ -97,10 +97,10 @@ const guiState = {
     nmsRadius: 30.0,
   },
   output: {
-    showVideo: true,
+    showVideo: false,
     showSkeleton: true,
     showPoints: true,
-    showBoundingBox: false,
+    showBoundingBox: true,
   },
   net: null,
 };

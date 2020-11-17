@@ -3,104 +3,112 @@
 
 <head>
     <title>Skeleton-Based-AR-ECC: End-to-End Skeleton-Based GCN for TPIR on Edge-Cloud Computing</title>
-    <style>
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            color: black;
-        }
-
-        .footer-text {
-            max-width: 600px;
-            text-align: center;
-            margin: auto;
-        }
-
-        @media only screen and (max-width: 600px) {
-
-            .footer-text,
-            .dg {
-                display: none;
-            }
-        }
-
-        /*
-         *  The following loading spinner CSS is from SpinKit project
-         *  https://github.com/tobiasahlin/SpinKit
-         */
-        .sk-spinner-pulse {
-            width: 20px;
-            height: 20px;
-            margin: auto 10px;
-            float: left;
-            background-color: #333;
-            border-radius: 100%;
-            -webkit-animation: sk-pulseScaleOut 1s infinite ease-in-out;
-            animation: sk-pulseScaleOut 1s infinite ease-in-out;
-        }
-
-        @-webkit-keyframes sk-pulseScaleOut {
-            0% {
-                -webkit-transform: scale(0);
-                transform: scale(0);
-            }
-
-            100% {
-                -webkit-transform: scale(1.0);
-                transform: scale(1.0);
-                opacity: 0;
-            }
-        }
-
-        @keyframes sk-pulseScaleOut {
-            0% {
-                -webkit-transform: scale(0);
-                transform: scale(0);
-            }
-
-            100% {
-                -webkit-transform: scale(1.0);
-                transform: scale(1.0);
-                opacity: 0;
-            }
-        }
-
-        .spinner-text {
-            float: left;
-        }
-    </style>
+    <link rel="stylesheet" href="ht_styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-    <div id="info" style='display:none'>
-    </div>
-    <div id="loading" style='display:flex'>
-        <div class="spinner-text">
-            Loading Data Acqusiation (PoseNet, OpenPose, Hyperpose, AlphaPose, etc) model...
+    <!-- App body design mulai dari sini -->
+    <div class="App">
+        <!-- header disini -->
+        <div class="App-header">
+            <header class="App-header">
+                <img src="./logo.svg" class="App-logo" alt="logo" />
+                <h3>Skeleton Based GCN for TPIR on Edge-Cloud Computing</h3>
+            </header>
+        </div> <!-- content disini -->
+        <div>
+            <!-- row pertama disini -->
+            <div class="row">
+                <div class="column">
+                    <h3>Data Acqusition</h3>
+                    <p class="tulisan-kecil">In this steps, we investigate a number of Pose-Estimation Algorithms
+                        (OpenPose, PoseNet, HyperPose) to extract skeleton data from video</p>
+                    <hr class="dashed"></hr>
+                </div>
+                <div class="column">
+                    <h3>Skeleton</h3>
+                    <p class="tulisan-kecil">The skeleton-data are sent to the Cloud simultaneously to be the input for
+                        GCN Based Inferences, the skeleton-data are saved as continously retrain the model at particular
+                        period </p>
+                    <hr class="dashed"></hr>
+                </div>
+                <div class="column">
+                    <h3>Output</h3>
+                    <p class="tulisan-kecil">Action Label from GCN-Based Model then sent back to the Edge. In this case,
+                        we focus on nine action on mutual-action subset of NTU RGBD Dataset, TPIR of UT Interaction
+                        dataset</p>
+                    <hr class="dashed"></hr>
+                </div>
+            </div><!-- end row pertama disini -->
+
+            <!-- row kedua disini -->
+            <div class="row">
+                <!--camera disini -->
+                <div class="column">
+                    <!-- Loading disini -->
+                    <div id="loading">
+                        <div class="spinner-text">
+                            Loading Data Acqusiation (PoseNet, OpenPose, Hyperpose, AlphaPose, etc) model...
+                        </div>
+                        <div class="sk-spinner sk-spinner-pulse"></div>
+                    </div>
+                    <!-- Control camera buttton disini -->
+                    <div>
+                        <button class="button"><span>Turn On Camera</span></button>
+                        <button class="button"> <span>Turn Off Camera</span> </button>
+                    </div>
+                    <!-- main camera disini -->
+                    <div id='main'>
+
+                    </div>
+                    <video id="video" playsinline class="camera-canvas""></video>			
+						<!-- akhir main camera disini -->
+						
+					</div>
+					<!--skeleton disini -->
+					<div class=" column">
+                        <div>
+                            <!-- FPS info disini -->
+                            <div id="info"></div>
+                            <canvas id="output" class="skeleton-canvas" />
+                        </div>
+                </div>
+                <!-- output dan label serta statistik disini -->
+                <div class="column">
+                    <div class="output-canvas">
+
+                    </div>
+                </div>
+            </div>
+            <!--akhir row kedua disini -->
+
         </div>
-        <div class="sk-spinner sk-spinner-pulse"></div>
-    </div>
-    <div id='main' style='display:none'>
-        <video id="video" playsinline style="display: none;">
-        </video>
-        <!-- -->
-         <canvas id="output" />
-       
-        
-    </div>
-    <div class="footer">
-        <div class="footer-text">
-            <p> </p>
-            <script> document.getElementById("data_skeleton").innerHTML = myJSON; </script>
-                          
+        <!-- akhir content disini -->
+
+        <!-- footer content -->
+        <div class="App-footer">
+            <div class="row">
+                <div class="App-footer-col">
+                    <p>All rights reserved &copy; SimsLab 2020</p>
+                </div>
+                <div class="App-footer-col">
+                    SIMSLAB, NTUST
+                    <hr>
+                    </hr>
+                    Address: No. 43號, Section 4, Keelung Rd, Da’an District, Taipei City, 106
+                </div>
+                <div class="App-footer-col">
+                    Link
+                    <hr></hr>
+                    <a href="https://github.com/hendrikTpl/skeleton-based-ar-ecc" class="App-link"> Github </a>||<a href="https://deepx.id" class="App-link"> DeepX.id </a>||<a href="http://sims.im.ntust.edu.tw/simslabweb/en/home/" class="App-link"> SimsLab </a></p>
+                </div>
+            </div>
         </div>
-        <div id="data_skeleton">
-            Data Skeleton
-        </div>
+        <!-- akhir footer content -->
+
     </div>
+    <!-- akhir body design-->
     <script src="camera.js"></script>
 </body>
 
