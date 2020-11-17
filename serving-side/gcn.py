@@ -10,6 +10,8 @@ from torchlight import import_class
 from tools.simple_gendata import gendata
 import time
 import numpy as np
+import os
+import glob
 
 def predict(data_out_path, data_path):
     start_time = time.time()
@@ -34,15 +36,19 @@ def predict(data_out_path, data_path):
     print('Gen_data_time', time.time()-s2_time)
     outpath_config = "{'data_path':" + str(data_out_path) + "}"
 
-    # start
-    Processor = processors['recognition']
-    p = Processor(['--c', 'config/test.yaml', 
-    '--index_data','test_X','--id_process', 'id_y',
-    '--test_feeder_args', "{'data_path': 'static/npy_data/kinetics_format_test.npy'}"])
+    files = glob.glob(data_path+'*')
+    for f in files:
+        os.remove(f)
 
-    inference_start = time.time()
-    result = p.start()
-    print('Inference result (index)', np.argmax(result[0]))
-    print('Time for Inference', time.time()-inference_start)
+    # start
+    # Processor = processors['recognition']
+    # p = Processor(['--c', 'config/test.yaml', 
+    # '--index_data','test_X','--id_process', 'id_y',
+    # '--test_feeder_args', "{'data_path': 'static/npy_data/kinetics_format_test.npy'}"])
+
+    # inference_start = time.time()
+    # result = p.start()
+    # print('Inference result (index)', np.argmax(result[0]))
+    # print('Time for Inference', time.time()-inference_start)
     
 # predict()

@@ -9,7 +9,7 @@ import logging
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 from pymongo import MongoClient
-from dbHelper import dbGlobal, dbTemp, dbCounter
+from dbHelper import dbGlobal, dbTemp, dbCounter, dbAction
 import pymongo
 from Converter_kinetics import Converter_kinetics
 
@@ -30,6 +30,7 @@ db = client.TryDatabase
 global_table = db.global_table
 temp_table = db.temp_table
 counter_table = db.counter_table
+action_table = db.action_table
 
 try:
     global_table.drop()
@@ -44,9 +45,10 @@ print(client.list_database_names())
 global_db = dbGlobal(global_table)
 temp_db = dbTemp(temp_table)
 counter_db = dbCounter(counter_table)
+action_db = dbAction(action_table)
 
-max_frame_for_inference = 15
-
+max_frame_for_inference = 200
+sliding_frame = 50
 @app.route('/test_posenet', methods=['POST'])
 def test_posenet(): 
     if request.method =='POST':
@@ -72,16 +74,17 @@ def test_posenet():
             with open(file_path2, 'w') as f:
                 json.dump(cluster, f)
             
-            temp_db.delete_record(ip_addr=client_ip)
+            temp_db.delete_record(ip_addr=client_ip, time_span=sliding_frame)
             print('INFO', client_ip, last_counter, flush=True)
-            #Kinetic GenData from cluster && Predict
             data_path     = 'static/formated/'
-            data_out_path = 'static/npy_data/kinetics_format_test.npy'
-            # proc = Process(target=predict, args=(data_out_path, data_path))
-            # proc.start()
-            print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', client_ip, last_counter, flush=True)
+            data_out_path = 'static/npy_data/' + str(date_send) + '.npy'
+            proc = Process(target=predict, args=(data_out_path, data_path))
+            proc.start()
+
+            action_db.add(client_ip=client_ip, generated_data = data_out_path, prediction= '1')
+            
             # last_counter = dbCounter.get_last_record(ip_addr=client_ip)  
-            counter_db.reset_counter(ip_addr= client_ip, reset_count = last_counter-10)
+            counter_db.reset_counter(ip_addr= client_ip, reset_count = last_counter-sliding_frame)
             last_counter = counter_db.last_counter(ip_addr=client_ip) 
             temp_db.add(ip_addr= client_ip, transformed_data=data_converted.kinetics_format(), counter= int(last_counter)+1, file_path=file_path1)
             return jsonify({
@@ -100,7 +103,17 @@ def test_posenet():
             'return_value': str(1),
         })
 
-# @app.route
+import time
+@app.route('/show_database', methods=['POST'])
+def show_database():
+    data = request.json
+    print(data, flush=True)
+    data = action_db.list_data()
+    print(data, flush=True)
+    print(list(data), flush=True)
+    return jsonify({
+        'data': 'list(data)'
+    })
 
 @app.route('/posenet', methods=['POST', 'GET'])
 def posenet():

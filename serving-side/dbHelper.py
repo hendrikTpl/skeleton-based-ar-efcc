@@ -31,11 +31,16 @@ class dbAction():
     def __init__(self, database):
         self.database = database
 
-    def add(self, generated_data, list_id):
+    def add(self, generated_data, client_ip, prediction):
         self.database.insert_one({
             'generated_data': generated_data,
-            'list_object_id':list_id,
+            'client_ip': client_ip, 
+            'prediction': prediction
         })
+    
+    def list_data(self):
+        cursor = self.database.find()
+        return cursor
     
 class dbTemp():
     def __init__(self, database):
