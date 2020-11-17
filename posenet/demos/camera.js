@@ -409,8 +409,12 @@ function detectPoseInRealTime(video, net) {
         });
 
         poses = poses.concat(all_poses);
+        //show skeleton data information on canvas disini        
+        var myJSON = JSON.stringify(poses);
+        
+        const canvasSkeleton = document.getElementById('info_skeleton_json'); 
+        
 
-        var myJSON = JSON.stringify(poses); 
 
         // console.log(myJSON);
         Http.open("POST", url);

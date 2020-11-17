@@ -1,13 +1,87 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Skeleton-Based-AR-ECC</title>
-  </head>
-  <body>
-    <h1>Skeleton-Based-AR-ECC: End-to-End Skeleton-Based GCN for TPIR on Edge-Cloud Computing</h1>
-    <ul>
-      <li><a href='camera.html'>Camera Realtime</a></li>
-      <li><a href='coco.html'>Using Uploaded Images</a></li>y
-    </ul>
-  </body>
+
+<head>
+  <title>Skeleton-Based-AR-ECC: End-to-End Skeleton-Based GCN for TPIR on Edge-Cloud Computing</title>
+  <link rel="stylesheet" href="ht_styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <!-- App body design mulai dari sini -->
+  <div class="App">
+    <!-- header disini -->
+    <div class="App-header">
+      <header class="App-header">
+        <img src="./logo.svg" class="App-logo" alt="logo" />
+        <h3>Skeleton Based GCN for TPIR on Edge-Cloud Computing</h3>
+      </header>
+    </div> <!-- content disini -->
+    <div class="App-body">
+      <!-- row pertama disini -->
+      <div class="row">
+        <div class="column">
+          <h3>Data Acqusition</h3>
+          <p class="tulisan-kecil">In this steps, we investigate a number of Pose-Estimation Algorithms (OpenPose,
+            PoseNet, HyperPose) to extract skeleton data from video</p>
+          <hr class="dashed">
+          </hr>
+        </div>
+        <div class="column">
+          <h3>Skeleton</h3>
+          <p class="tulisan-kecil">The skeleton-data are sent to the Cloud simultaneously to be the input for GCN Based
+            Inferences, the skeleton-data are saved as continously retrain the model at particular period </p>
+          <hr class="dashed">
+          </hr>
+        </div>
+        <div class="column">
+          <h3>Output</h3>
+          <p class="tulisan-kecil">Action Label from GCN-Based Model then sent back to the Edge. In this case, we focus
+            on nine action on mutual-action subset of NTU RGBD Dataset, TPIR of UT Interaction dataset</p>
+          <hr class="dashed">
+          </hr>
+        </div>
+      </div><!-- end row pertama disini -->
+
+      <!-- row kedua disini -->
+      <div class="row">
+          <div>
+            <ul>
+              <li><a href='camera.html' class="button"><span>Turn-On Camera</span></a>
+              </li><li><a href='coco.html' class="button"><span>Examples Uploaded Images</span></a></li>
+            </ul>            
+          </div>
+
+    </div>
+    <!-- akhir content disini -->
+
+    <!-- footer content -->
+    <div class="App-footer">
+      <div class="row">
+        <div class="App-footer-col">
+          <p>All rights reserved &copy; SimsLab 2020</p>
+        </div>
+        <div class="App-footer-col">
+          SIMSLAB, NTUST
+          <hr>
+          </hr>
+          Address: No. 43號, Section 4, Keelung Rd, Da’an District, Taipei City, 106
+        </div>
+        <div class="App-footer-col">
+          Link
+          <hr>
+          </hr>
+          <a href="https://github.com/hendrikTpl/skeleton-based-ar-ecc" class="App-link"> Github </a>||<a
+            href="https://deepx.id" class="App-link"> DeepX.id </a>||<a
+            href="http://sims.im.ntust.edu.tw/simslabweb/en/home/" class="App-link"> SimsLab </a></p>
+        </div>
+      </div>
+    </div>
+    <!-- akhir footer content -->
+
+  </div>
+  <!-- akhir body design-->
+  <script src="camera.js"></script>
+</body>
+
 </html>

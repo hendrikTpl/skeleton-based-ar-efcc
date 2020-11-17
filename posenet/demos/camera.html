@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body>
+<body class="App-body">
     <!-- App body design mulai dari sini -->
     <div class="App">
         <!-- header disini -->
@@ -54,14 +54,14 @@
                         <div class="sk-spinner sk-spinner-pulse"></div>
                     </div>
                     <!-- Control camera buttton disini -->
+                    <!--
                     <div>
                         <button class="button"><span>Turn On Camera</span></button>
                         <button class="button"> <span>Turn Off Camera</span> </button>
                     </div>
+                    -->
                     <!-- main camera disini -->
-                    <div id='main'>
-
-                    </div>
+                   
                     <video id="video" playsinline class="camera-canvas""></video>			
 						<!-- akhir main camera disini -->
 						
@@ -71,12 +71,14 @@
                         <div>
                             <!-- FPS info disini -->
                             <div id="info"></div>
+                            <div id='main'></div>
                             <canvas id="output" class="skeleton-canvas" />
                         </div>
                 </div>
                 <!-- output dan label serta statistik disini -->
                 <div class="column">
                     <div class="output-canvas">
+                        <div id="info_skeleton_json"></div>
 
                     </div>
                 </div>
