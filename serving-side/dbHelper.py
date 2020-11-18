@@ -40,7 +40,16 @@ class dbAction():
     
     def list_data(self):
         cursor = self.database.find()
-        return cursor
+        list_data = []
+        for data in cursor:
+            dt = {
+                'Source_IP' : data['client_ip'],
+                'Data_path' : data['generated_data'],
+                'Prediction_Result': data['prediction'],
+            }
+            # print(dt)
+            list_data.append(dt)
+        return list_data
     
 class dbTemp():
     def __init__(self, database):

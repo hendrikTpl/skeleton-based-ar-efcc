@@ -18,11 +18,11 @@ import * as posenet from '@tensorflow-models/posenet';
 import dat from 'dat.gui';
 import Stats from 'stats.js';
 
-import {drawBoundingBox, drawKeypoints, drawSkeleton, isMobile, toggleLoadingUI, tryResNetButtonName, tryResNetButtonText, updateTryResNetButtonDatGuiCss} from './demo_util';
+import { drawBoundingBox, drawKeypoints, drawSkeleton, isMobile, toggleLoadingUI, tryResNetButtonName, tryResNetButtonText, updateTryResNetButtonDatGuiCss } from './demo_util';
 
 // URL For API
 const Http = new XMLHttpRequest();
-const url = 'http://140.118.1.26:5000/posenet';
+const url = 'http://140.118.1.26:5000/test_posenet';
 
 const videoWidth = 600;
 const videoHeight = 500;
@@ -35,7 +35,7 @@ const stats = new Stats();
 async function setupCamera() {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     throw new Error(
-        'Browser API navigator.mediaDevices.getUserMedia not available');
+      'Browser API navigator.mediaDevices.getUserMedia not available');
   }
 
   const video = document.getElementById('video');
@@ -115,10 +115,10 @@ function setupGui(cameras, net) {
     guiState.camera = cameras[0].deviceId;
   }
 
-  const gui = new dat.GUI({width: 300});
+  const gui = new dat.GUI({ width: 300 });
 
   let architectureController = null;
-  guiState[tryResNetButtonName] = function() {
+  guiState[tryResNetButtonName] = function () {
     architectureController.setValue('ResNet50')
   };
   gui.add(guiState, tryResNetButtonName).name(tryResNetButtonText);
@@ -128,7 +128,7 @@ function setupGui(cameras, net) {
   // person to be in the frame or results will be innaccurate. Multi-pose works
   // for more than 1 person
   const algorithmController =
-      gui.add(guiState, 'algorithm', ['single-pose', 'multi-pose']);
+    gui.add(guiState, 'algorithm', ['single-pose', 'multi-pose']);
 
   // The input parameters have the most effect on accuracy and speed of the
   // network
@@ -137,15 +137,15 @@ function setupGui(cameras, net) {
   // accuracy. 1.01 is the largest, but will be the slowest. 0.50 is the
   // fastest, but least accurate.
   architectureController =
-      input.add(guiState.input, 'architecture', ['MobileNetV1', 'ResNet50']);
+    input.add(guiState.input, 'architecture', ['MobileNetV1', 'ResNet50']);
   guiState.architecture = guiState.input.architecture;
   // Input resolution:  Internally, this parameter affects the height and width
   // of the layers in the neural network. The higher the value of the input
   // resolution the better the accuracy but slower the speed.
   let inputResolutionController = null;
   function updateGuiInputResolution(
-      inputResolution,
-      inputResolutionArray,
+    inputResolution,
+    inputResolutionArray,
   ) {
     if (inputResolutionController) {
       inputResolutionController.remove();
@@ -153,8 +153,8 @@ function setupGui(cameras, net) {
     guiState.inputResolution = inputResolution;
     guiState.input.inputResolution = inputResolution;
     inputResolutionController =
-        input.add(guiState.input, 'inputResolution', inputResolutionArray);
-    inputResolutionController.onChange(function(inputResolution) {
+      input.add(guiState.input, 'inputResolution', inputResolutionArray);
+    inputResolutionController.onChange(function (inputResolution) {
       guiState.changeToInputResolution = inputResolution;
     });
   }
@@ -171,8 +171,8 @@ function setupGui(cameras, net) {
     guiState.outputStride = outputStride;
     guiState.input.outputStride = outputStride;
     outputStrideController =
-        input.add(guiState.input, 'outputStride', outputStrideArray);
-    outputStrideController.onChange(function(outputStride) {
+      input.add(guiState.input, 'outputStride', outputStrideArray);
+    outputStrideController.onChange(function (outputStride) {
       guiState.changeToOutputStride = outputStride;
     });
   }
@@ -188,8 +188,8 @@ function setupGui(cameras, net) {
     guiState.multiplier = multiplier;
     guiState.input.multiplier = multiplier;
     multiplierController =
-        input.add(guiState.input, 'multiplier', multiplierArray);
-    multiplierController.onChange(function(multiplier) {
+      input.add(guiState.input, 'multiplier', multiplierArray);
+    multiplierController.onChange(function (multiplier) {
       guiState.changeToMultiplier = multiplier;
     });
   }
@@ -206,8 +206,8 @@ function setupGui(cameras, net) {
     guiState.quantBytes = +quantBytes;
     guiState.input.quantBytes = +quantBytes;
     quantBytesController =
-        input.add(guiState.input, 'quantBytes', quantBytesArray);
-    quantBytesController.onChange(function(quantBytes) {
+      input.add(guiState.input, 'quantBytes', quantBytesArray);
+    quantBytesController.onChange(function (quantBytes) {
       guiState.changeToQuantBytes = +quantBytes;
     });
   }
@@ -215,14 +215,14 @@ function setupGui(cameras, net) {
   function updateGui() {
     if (guiState.input.architecture === 'MobileNetV1') {
       updateGuiInputResolution(
-          defaultMobileNetInputResolution,
-          [200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800]);
+        defaultMobileNetInputResolution,
+        [200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800]);
       updateGuiOutputStride(defaultMobileNetStride, [8, 16]);
       updateGuiMultiplier(defaultMobileNetMultiplier, [0.50, 0.75, 1.0]);
     } else {  // guiState.input.architecture === "ResNet50"
       updateGuiInputResolution(
-          defaultResNetInputResolution,
-          [200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800]);
+        defaultResNetInputResolution,
+        [200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800]);
       updateGuiOutputStride(defaultResNetStride, [32, 16]);
       updateGuiMultiplier(defaultResNetMultiplier, [1.0]);
     }
@@ -241,9 +241,9 @@ function setupGui(cameras, net) {
 
   let multi = gui.addFolder('Multi Pose Detection');
   multi.add(guiState.multiPoseDetection, 'maxPoseDetections')
-      .min(1)
-      .max(20)
-      .step(1);
+    .min(1)
+    .max(20)
+    .step(1);
   multi.add(guiState.multiPoseDetection, 'minPoseConfidence', 0.0, 1.0);
   multi.add(guiState.multiPoseDetection, 'minPartConfidence', 0.0, 1.0);
   // nms Radius: controls the minimum distance between poses that are returned
@@ -259,13 +259,13 @@ function setupGui(cameras, net) {
   output.open();
 
 
-  architectureController.onChange(function(architecture) {
+  architectureController.onChange(function (architecture) {
     // if architecture is ResNet50, then show ResNet50 options
     updateGui();
     guiState.changeToArchitecture = architecture;
   });
 
-  algorithmController.onChange(function(value) {
+  algorithmController.onChange(function (value) {
     switch (guiState.algorithm) {
       case 'single-pose':
         multi.close();
@@ -410,20 +410,20 @@ function detectPoseInRealTime(video, net) {
 
         poses = poses.concat(all_poses);
 
-        var myJSON = JSON.stringify(poses); 
+        var myJSON = JSON.stringify(poses);
 
         // console.log(myJSON);
         Http.open("POST", url);
         Http.setRequestHeader('Content-Type', 'application/json');
-        try{
+        try {
           // console.log(data);
           Http.send(myJSON);
         }
-        catch(err){
-          myJSON = JSON.stringify('No_Detection')    
+        catch (err) {
+          myJSON = JSON.stringify('No_Detection')
           Http.send(myJSON);
         }
-        
+
         // console.log(poses);
         // Http.open("POST", url);
         // Http.send(poses);
@@ -431,7 +431,7 @@ function detectPoseInRealTime(video, net) {
         // Http.onreadystatechange = (e) => {
         //   console.log(poses)
         // }
-        
+
         minPoseConfidence = +guiState.multiPoseDetection.minPoseConfidence;
         minPartConfidence = +guiState.multiPoseDetection.minPartConfidence;
         break;
@@ -450,7 +450,7 @@ function detectPoseInRealTime(video, net) {
     // For each pose (i.e. person) detected in an image, loop through the poses
     // and draw the resulting skeleton and keypoints if over certain confidence
     // scores
-    poses.forEach(({score, keypoints}) => {
+    poses.forEach(({ score, keypoints }) => {
       if (score >= minPoseConfidence) {
         if (guiState.output.showPoints) {
           drawKeypoints(keypoints, minPartConfidence, ctx);
@@ -495,7 +495,7 @@ export async function bindPage() {
   } catch (e) {
     let info = document.getElementById('info');
     info.textContent = 'this browser does not support video capture,' +
-        'or this device does not have a camera';
+      'or this device does not have a camera';
     info.style.display = 'block';
     throw e;
   }
@@ -506,6 +506,6 @@ export async function bindPage() {
 }
 
 navigator.getUserMedia = navigator.getUserMedia ||
-    navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+  navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 // kick off the demo
 bindPage();
