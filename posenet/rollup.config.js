@@ -37,14 +37,14 @@ const PREAMBLE = `/**
     */`;
 
 function minify() {
-  return uglify({output: {preamble: PREAMBLE}});
+  return uglify({ output: { preamble: PREAMBLE } });
 }
 
-function config({plugins = [], output = {}}) {
+function config({ plugins = [], output = {} }) {
   return {
     input: 'src/index.ts',
     plugins: [
-      typescript({tsconfigOverride: {compilerOptions: {module: 'ES2015'}}}),
+      typescript({ tsconfigOverride: { compilerOptions: { module: 'ES2015' } } }),
       node(), ...plugins
     ],
     output: {
@@ -64,13 +64,13 @@ function config({plugins = [], output = {}}) {
 }
 
 export default [
-  config({output: {format: 'umd', name: 'posenet', file: 'dist/posenet.js'}}),
+  config({ output: { format: 'umd', name: 'posenet', file: 'dist/posenet.js' } }),
   config({
     plugins: [minify()],
-    output: {format: 'umd', name: 'posenet', file: 'dist/posenet.min.js'}
+    output: { format: 'umd', name: 'posenet', file: 'dist/posenet.min.js' }
   }),
   config({
     plugins: [minify()],
-    output: {format: 'es', file: 'dist/posenet.esm.js'}
+    output: { format: 'es', file: 'dist/posenet.esm.js' }
   })
 ];

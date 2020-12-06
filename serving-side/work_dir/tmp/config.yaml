@@ -37,9 +37,9 @@ start_epoch: 0
 step: []
 test_batch_size: 2
 test_feeder_args:
-    data_path: static/npy_data/18-11-2020_18:38:07.127.npy
+    data_path: static/npy_data/02-12-2020_06:12:54.827.npy
 train_feeder_args: {}
 use_gpu: true
 weight_decay: 0.0001
-weights: ./config/best.pt
+weights: ./config/best_tested.pt
 work_dir: ./work_dir/tmp

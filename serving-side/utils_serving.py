@@ -7,6 +7,7 @@ def mid_point(a, b):
     y = (a[1] + b[1])/2
     score = (a[2] + b[2])/2
     return x, y, score
+    # return 0, 0, 0
 
 def add_point(data):
     '''
@@ -25,9 +26,9 @@ def add_point(data):
         #Point2
         score2 = per_person['keypoints'][6]['score']
         x2 = per_person['keypoints'][6]['position']['x']
-        y2 = per_person['keypoints'][5]['position']['y']
-        a = (score1, x1, y1)
-        b = (score2, x2, y2)
+        y2 = per_person['keypoints'][6]['position']['y']
+        a = (x1, y1, score1)
+        b = (x2, y2, score2)
 
         x, y, score = mid_point(a, b)
         position = {

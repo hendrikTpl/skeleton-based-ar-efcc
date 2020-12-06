@@ -1,4 +1,4 @@
-weights: ./config/best.pt
+weights: ./config/best_tested.pt
 # feeder
 feeder: feeder.feeder_kinetics.Feeder_kinetics
 
