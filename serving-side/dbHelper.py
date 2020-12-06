@@ -100,6 +100,7 @@ class dbAction():
 
 class dbTemp():
     def __init__(self, database):
+        self.database = database
 
     def add(self, ip_addr, transformed_data, counter, file_path):
         self.database.insert_one({

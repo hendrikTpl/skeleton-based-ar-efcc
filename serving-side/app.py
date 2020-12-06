@@ -111,30 +111,32 @@ def test_posenet():
 
         # last_counter   = temp_db.get_last_record(ip_addr=client_ip)
         last_counter = counter_db.last_counter(ip_addr=client_ip)
+        data_converted = Converter_kinetics(
+            data_path=file_path1, frame_index=last_counter)
 
         print(last_counter, flush=True)
-            data_path = file_path1, frame_index = last_counter)
+        # data_path = file_path1, frame_index = last_counter)
         # print('INFO', client_ip, last_counter, flush=True)
         if last_counter > max_frame_for_inference:
 
-            cluster, cluster_list=temp_db.list_cluster(client_ip)
-            file_path2=os.getcwd() + '/static/formated/' + str(date_send) + '.json'
+            cluster, cluster_list = temp_db.list_cluster(client_ip)
+            file_path2 = os.getcwd() + '/static/formated/' + str(date_send) + '.json'
             with open(file_path2, 'w') as f:
                 json.dump(cluster, f)
 
-            temp_db.delete_record(ip_addr = client_ip,
-                                  time_span = sliding_frame)
+            temp_db.delete_record(ip_addr=client_ip,
+                                  time_span=sliding_frame)
             # print('INFO', client_ip, last_counter, flush=True)
-            data_path='static/formated/'
-            data_out_path='static/npy_data/' + str(date_send) + '.npy'
-            proc=Process(target = predict, args = (
+            data_path = 'static/formated/'
+            data_out_path = 'static/npy_data/' + str(date_send) + '.npy'
+            proc = Process(target=predict, args=(
                 data_out_path, data_path, action_db, client_ip))
             # print('something2')
             proc.start()
             # print('Inference result (index)', np.argmax(result[0]))
             # print('#############################################')
-            action_db.add(client_ip = client_ip,
-                          generated_data = data_out_path, prediction = '1')
+            action_db.add(client_ip=client_ip,
+                          generated_data=data_out_path, prediction='1')
             # action_db.add(client_ip=client_ip,
             #               generated_data=data_out_path, prediction='1')
 
@@ -144,7 +146,6 @@ def test_posenet():
             last_counter = counter_db.last_counter(ip_addr=client_ip)
             temp_db.add(ip_addr=client_ip, transformed_data=data_converted.kinetics_format(
             ), counter=int(last_counter)+1, file_path=file_path1)
-
 
             # Store to DB with spesific IP, flag it with "Inferencing"
             return jsonify({
@@ -184,7 +185,6 @@ def show_database():
     return jsonify({
         'data': data
     })
-
 
 
 @app.route('/posenet', methods=['POST', 'GET'])
