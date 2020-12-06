@@ -27,7 +27,7 @@ def predict():
 
     
     s2_time = time.time()
-    data_path     = 'kinetics_format/single_test2/'
+    data_path     = 'kinetics_format/single_test3/'
     data_out_path = 'kinetics_format_test.npy'
     gendata(data_path, data_out_path)
     print('Gen_data_time', time.time()-s2_time)
@@ -36,11 +36,11 @@ def predict():
     Processor = processors['recognition']
     p = Processor(['--c', 'config/sbu/test.yaml', 
     '--index_data','misal','--id_process', 'misal',
-    '--test_feeder_args',"{'data_path': 'kinetics_format2.npy'}"])
+    '--test_feeder_args',"{'data_path': 'kinetics_format_test.npy'}"])
 
     inference_start = time.time()
     result = p.start()
     print('Inference result (index)', np.argmax(result[0]))
     print('Time for Inference', time.time()-inference_start)
     
-predict()
+# predict()

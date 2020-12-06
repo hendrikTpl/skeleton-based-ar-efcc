@@ -113,8 +113,8 @@ class REC_Processor(Processor):
 
         self.result = np.concatenate(result_frag)
         data = []
-
-        # print((np.argmax(self.result[0])))
+        print(result_frag)
+        print(self.result)
         if self.result.shape[0] != 0:
             for ia in range(0, self.result.shape[0]):
                 data_iter = int(np.argmax(self.result[ia, :], 0) )

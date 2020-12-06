@@ -14,7 +14,7 @@ from feeder.simple_feeder import Feeder_kinetics
 def gendata(
         data_path,
         data_out_path,
-        num_person_in=5,  #observe the first 5 persons
+        num_person_in=2,  #observe the first 5 persons
         num_person_out=2,  #then choose 2 persons with the highest score
         max_frame=300):
 
@@ -22,7 +22,8 @@ def gendata(
         data_path=data_path,
         num_person_in=num_person_in,
         num_person_out=num_person_out,
-        window_size=max_frame)
+        window_size=max_frame,
+        frame_max=max_frame)
 
     sample_name = feeder.sample_name
     sample_label = []

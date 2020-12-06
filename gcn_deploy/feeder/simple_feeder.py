@@ -47,7 +47,8 @@ class Feeder_kinetics(torch.utils.data.Dataset):
                  pose_matching=True,
                  num_person_in=2,
                  num_person_out=2,
-                 debug=False):
+                 debug=False,
+                 frame_max=300):
         self.debug = debug
         self.data_path = data_path
         self.random_choose = random_choose
@@ -58,6 +59,7 @@ class Feeder_kinetics(torch.utils.data.Dataset):
         self.num_person_out = num_person_out
         self.pose_matching = pose_matching
         self.ignore_empty_sample = ignore_empty_sample
+        self.frame_max = frame_max
 
         self.load_data()
 
@@ -78,7 +80,7 @@ class Feeder_kinetics(torch.utils.data.Dataset):
         # output data shape (N, C, T, V, M)
         self.N = len(self.sample_name)  #sample
         self.C = 3  #channel
-        self.T = 300  #frame
+        self.T = self.frame_max  #frame
         self.V = 18  #joint
         self.M = self.num_person_out  #person
 
