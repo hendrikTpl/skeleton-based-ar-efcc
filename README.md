@@ -1,4 +1,4 @@
-# skeleton-based-ar-ecc
+# skeleton-based-ar-efcc
 
 
 # Edge Layer
